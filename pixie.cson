@@ -1,0 +1,7 @@
+version: "0.1.0"
+remoteDependencies: [
+  "https://code.jquery.com/jquery-1.11.2.min.js"
+]
+dependencies:
+  runner: "distri/runner:v0.3.0"
+  util: "distri/util:v0.1.1"
