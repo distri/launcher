@@ -43,6 +43,8 @@ global.ENV ?= {}
 
 extend global.ENV, QueryString.parse(document.location.search.substr(<span class="number">1</span>))
 
+alert ENV.PACKAGE_URL
+
 $.getJSON(ENV.PACKAGE_URL)
 .<span class="keyword">then</span> require</code></pre>
 </div>

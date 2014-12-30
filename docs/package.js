@@ -185,7 +185,7 @@
     },
     "main.coffee.md": {
       "path": "main.coffee.md",
-      "content": "Launcher\n========\n\nLaunch a package from a json url.\n\n    {extend} = require \"util\"\n    Runner = require \"runner\"\n    QueryString = require \"./lib/qs\"\n\n    global.ENV ?= {}\n\n    extend global.ENV, QueryString.parse(document.location.search.substr(1))\n\n    $.getJSON(ENV.PACKAGE_URL)\n    .then require\n",
+      "content": "Launcher\n========\n\nLaunch a package from a json url.\n\n    {extend} = require \"util\"\n    Runner = require \"runner\"\n    QueryString = require \"./lib/qs\"\n\n    global.ENV ?= {}\n\n    extend global.ENV, QueryString.parse(document.location.search.substr(1))\n\n    alert ENV.PACKAGE_URL\n\n    $.getJSON(ENV.PACKAGE_URL)\n    .then require\n",
       "mode": "100644"
     },
     "lib/qs.js": {
@@ -207,7 +207,7 @@
     },
     "main": {
       "path": "main",
-      "content": "(function() {\n  var QueryString, Runner, extend;\n\n  extend = require(\"util\").extend;\n\n  Runner = require(\"runner\");\n\n  QueryString = require(\"./lib/qs\");\n\n  if (global.ENV == null) {\n    global.ENV = {};\n  }\n\n  extend(global.ENV, QueryString.parse(document.location.search.substr(1)));\n\n  $.getJSON(ENV.PACKAGE_URL).then(require);\n\n}).call(this);\n",
+      "content": "(function() {\n  var QueryString, Runner, extend;\n\n  extend = require(\"util\").extend;\n\n  Runner = require(\"runner\");\n\n  QueryString = require(\"./lib/qs\");\n\n  if (global.ENV == null) {\n    global.ENV = {};\n  }\n\n  extend(global.ENV, QueryString.parse(document.location.search.substr(1)));\n\n  alert(ENV.PACKAGE_URL);\n\n  $.getJSON(ENV.PACKAGE_URL).then(require);\n\n}).call(this);\n",
       "type": "blob"
     },
     "lib/qs": {
