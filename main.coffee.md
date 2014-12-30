@@ -11,5 +11,7 @@ Launch a package from a json url.
 
     extend global.ENV, QueryString.parse(document.location.search.substr(1))
 
+    alert ENV.PACKAGE_URL
+
     $.getJSON(ENV.PACKAGE_URL)
     .then require
