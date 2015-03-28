@@ -36,14 +36,11 @@
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{extend} = require <span class="string">"util"</span>
-Runner = require <span class="string">"runner"</span>
 QueryString = require <span class="string">"./lib/qs"</span>
 
 global.ENV ?= {}
 
-extend global.ENV, QueryString.parse(document.location.search.substr(<span class="number">1</span>))
-
-alert ENV.PACKAGE_URL
+extend ENV, QueryString.parse(document.location.search.substr(<span class="number">1</span>))
 
 $.getJSON(ENV.PACKAGE_URL)
 .<span class="keyword">then</span> require</code></pre>
