@@ -42,8 +42,31 @@ global.ENV ?= {}
 
 extend ENV, QueryString.parse(document.location.search.substr(<span class="number">1</span>))
 
+<span class="comment"># if PACKAGE.name is "ROOT"</span>
+<span class="comment">#   ENV.PACKAGE_URL = "https://s3.amazonaws.com/whimsyspace-databucket-1g3p6d9lcl6x1/data/1fd5d1704c461b3ae6845fa7c0dd4a4181fc4b3f?duder"</span>
+
 $.getJSON(ENV.PACKAGE_URL)
-.<span class="keyword">then</span> require</code></pre>
+.<span class="keyword">then</span> (pkg) -&gt;
+  <span class="keyword">new</span> Promise (resolve, reject) -&gt;
+    <span class="comment"># Load deps</span>
+    loadedCount = <span class="number">0</span>
+    <span class="function"><span class="title">onload</span></span> = -&gt;
+      loadedCount += <span class="number">1</span>
+      <span class="keyword">if</span> loadedCount <span class="keyword">is</span> scriptCount
+        resolve(pkg)
+
+    scriptCount = <span class="number">0</span>
+    <span class="function"><span class="title">loadDep</span></span> = (src) -&gt;
+      scriptCount += <span class="number">1</span>
+      script = document.createElement(<span class="string">"script"</span>)
+      script.onload = onload
+      document.head.appendChild script
+      script.src = src
+
+    (pkg.remoteDependencies || []).forEach loadDep
+
+.<span class="keyword">then</span> (promise) -&gt; <span class="comment"># Bad dog jQuery, BAD DOG!</span>
+  promise.<span class="keyword">then</span> require</code></pre>
 </div>
         </li>
         
@@ -51,7 +74,7 @@ $.getJSON(ENV.PACKAGE_URL)
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script><script>
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script><script>
   (function() {
   var ErrorReporter, bindUpdates, createEditor, exec, findInteractiveElements, readShebang, runners;
 

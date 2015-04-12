@@ -186,13 +186,13 @@
     },
     "main.coffee.md": {
       "path": "main.coffee.md",
-      "content": "Launcher\n========\n\nLaunch a package from a json url.\n\n    {extend} = require \"util\"\n    QueryString = require \"./lib/qs\"\n\n    global.ENV ?= {}\n\n    extend ENV, QueryString.parse(document.location.search.substr(1))\n\n    $.getJSON(ENV.PACKAGE_URL)\n    .then require\n",
+      "content": "Launcher\n========\n\nLaunch a package from a json url.\n\n    {extend} = require \"util\"\n    QueryString = require \"./lib/qs\"\n\n    global.ENV ?= {}\n\n    extend ENV, QueryString.parse(document.location.search.substr(1))\n\n    # if PACKAGE.name is \"ROOT\"\n    #   ENV.PACKAGE_URL = \"https://s3.amazonaws.com/whimsyspace-databucket-1g3p6d9lcl6x1/data/1fd5d1704c461b3ae6845fa7c0dd4a4181fc4b3f?duder\"\n\n    $.getJSON(ENV.PACKAGE_URL)\n    .then (pkg) ->\n      new Promise (resolve, reject) ->\n        # Load deps\n        loadedCount = 0\n        onload = ->\n          loadedCount += 1\n          if loadedCount is scriptCount\n            resolve(pkg)\n\n        scriptCount = 0\n        loadDep = (src) ->\n          scriptCount += 1\n          script = document.createElement(\"script\")\n          script.onload = onload\n          document.head.appendChild script\n          script.src = src\n\n        (pkg.remoteDependencies || []).forEach loadDep\n\n    .then (promise) -> # Bad dog jQuery, BAD DOG!\n      promise.then require\n",
       "mode": "100644",
       "type": "blob"
     },
     "pixie.cson": {
       "path": "pixie.cson",
-      "content": "version: \"0.1.0\"\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.11.2.min.js\"\n]\ndependencies:\n  util: \"distri/util:v0.1.1\"\n",
+      "content": "version: \"0.1.0\"\nremoteDependencies: [\n  \"http://code.jquery.com/jquery-2.1.3.min.js\"\n]\ndependencies:\n  util: \"distri/util:v0.1.1\"\n",
       "mode": "100644",
       "type": "blob"
     },
@@ -211,12 +211,12 @@
     },
     "main": {
       "path": "main",
-      "content": "(function() {\n  var QueryString, extend;\n\n  extend = require(\"util\").extend;\n\n  QueryString = require(\"./lib/qs\");\n\n  if (global.ENV == null) {\n    global.ENV = {};\n  }\n\n  extend(ENV, QueryString.parse(document.location.search.substr(1)));\n\n  $.getJSON(ENV.PACKAGE_URL).then(require);\n\n}).call(this);\n",
+      "content": "(function() {\n  var QueryString, extend;\n\n  extend = require(\"util\").extend;\n\n  QueryString = require(\"./lib/qs\");\n\n  if (global.ENV == null) {\n    global.ENV = {};\n  }\n\n  extend(ENV, QueryString.parse(document.location.search.substr(1)));\n\n  $.getJSON(ENV.PACKAGE_URL).then(function(pkg) {\n    return new Promise(function(resolve, reject) {\n      var loadDep, loadedCount, onload, scriptCount;\n      loadedCount = 0;\n      onload = function() {\n        loadedCount += 1;\n        if (loadedCount === scriptCount) {\n          return resolve(pkg);\n        }\n      };\n      scriptCount = 0;\n      loadDep = function(src) {\n        var script;\n        scriptCount += 1;\n        script = document.createElement(\"script\");\n        script.onload = onload;\n        document.head.appendChild(script);\n        return script.src = src;\n      };\n      return (pkg.remoteDependencies || []).forEach(loadDep);\n    });\n  }).then(function(promise) {\n    return promise.then(require);\n  });\n\n}).call(this);\n",
       "type": "blob"
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.1.0\",\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.11.2.min.js\"],\"dependencies\":{\"util\":\"distri/util:v0.1.1\"}};",
+      "content": "module.exports = {\"version\":\"0.1.0\",\"remoteDependencies\":[\"http://code.jquery.com/jquery-2.1.3.min.js\"],\"dependencies\":{\"util\":\"distri/util:v0.1.1\"}};",
       "type": "blob"
     },
     "test/qs": {
@@ -231,7 +231,7 @@
   "version": "0.1.0",
   "entryPoint": "main",
   "remoteDependencies": [
-    "https://code.jquery.com/jquery-1.11.2.min.js"
+    "http://code.jquery.com/jquery-2.1.3.min.js"
   ],
   "repository": {
     "branch": "master",
